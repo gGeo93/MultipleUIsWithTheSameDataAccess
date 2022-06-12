@@ -1,0 +1,95 @@
+﻿@page "/Data/SHeroes/{Rank:int}";
+@using System.Linq;
+@using System.Collections.Generic;
+@using DataAccess;
+@using DataAccess.Data;
+@using Repository;
+@using Data_Model;
+@using System.Collections
+
+@inject UnitOfWork _unit;
+@inject NavigationManager navigationManager;
+
+<h3>SingleHero</h3>
+
+
+@if(hero == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm Model="@displayModel" OnValidSubmit = "@UpdateHero">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        <div class = "mb-3">
+            <label for="heroName" class="col-form-label">Hero Name</label>
+            <input style="margin-left:10px" type="text" id="heroName" class="input-group-sm" @bind-value="displayModel.HeroName" disabled = "@IsDisabled"/>
+        </div>
+        <div class = "mb-3">
+            <label for="firstName" class="col-form-label">First Name</label>
+            <input style="margin-left:13px" type="text" id="firstName" class="input-group-sm" @bind-value="displayModel.FirstName" disabled = "@IsDisabled"/>
+        </div>
+        <div class = "mb-3">
+            <label for="lastName" class="col-form-label">Last Name</label>
+            <input style="margin-left:13px" type="text" id="lastName" class="input-group-sm" @bind-value="displayModel.LastName" disabled = "@IsDisabled"/>
+        </div>
+        <div class = "mb-3">
+            <label for="location" class="col-form-label">Location</label>
+            <input style="margin-left:30px" type="text" id="location" class="input-group-sm" @bind-value="displayModel.Location" disabled = "@IsDisabled"/>
+        </div>
+        <div class = "mb-3">
+            <label for="rank" class="col-form-label">Rank</label>
+            <input style="margin-left:53px" type="text" id="rank" class="input-group-sm" @bind-value="displayModel.Rank" disabled = "@IsDisabled"/>
+        </div>
+        <div class = "mb-3">
+            <label for="numberOfFriends" class="col-form-label">Friends</label>
+            <input style="margin-left:39px" type="text" id="numberOfFriends" class="input-group-sm" @bind-value="displayModel.NumberOfFriends" disabled = "@IsDisabled"/>
+        </div>
+        <button type="submit" class="btn btn-outline-warning">Update</button>
+        <button type="button" class="btn btn-outline-danger" @onclick = "DeleteHero">Delete</button>
+    </EditForm>
+}
+
+@code
+{
+    [Parameter]
+    public int Rank { get; set; }
+
+    private bool IsDisabled { get; set; } = false;
+
+    private Superhero? hero;
+
+    private SuperheroDisplayModel displayModel = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        hero = await _unit.SuperHeroes.GetSuperheroByRank(Rank);
+        displayModel = new SuperheroDisplayModel() {
+                                                    HeroName = hero.HeroName, 
+                                                    FirstName = hero.FirstName, 
+                                                    LastName = hero.LastName, 
+                                                    Location = hero.Location, 
+                                                    Rank = hero.Rank, 
+                                                    NumberOfFriends = hero.NumberOfFriends };
+    }
+    private void UpdateHero()
+    {
+        if (!IsDisabled)
+        {
+            hero.HeroName = displayModel.HeroName;
+            hero.FirstName = displayModel.FirstName;
+            hero.LastName = displayModel.LastName;
+            hero.Location = displayModel.Location;
+            hero.Rank = displayModel.Rank;
+            hero.NumberOfFriends = displayModel.NumberOfFriends;
+            navigationManager.NavigateTo("/Data/SHeroes");
+        }
+    }
+    private async Task DeleteHero()
+    {
+        _unit.SuperHeroes.Remove(hero);
+        await _unit.Complete();
+        navigationManager.NavigateTo("/Data/SHeroes");
+    }
+}

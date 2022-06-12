@@ -1,0 +1,122 @@
+﻿@page "/Data/SHeroes";
+@using System.Collections;
+@using System.Collections.Generic;
+@using DataAccess
+@using Repository;
+@using DataAccess.Data;
+@using Data_Model;
+
+@inject UnitOfWork unit;
+@inject NavigationManager navigationManager;
+
+@if (displayModels.Count == 0)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>Superheroes</h3>
+    <br />
+    <table class = "table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Hero's Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Location</th>
+                <th>Number of Friends</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var hero in displayModels)
+            {
+                <tr>
+                    <td>@hero.Rank</td>
+                    <td>@hero.HeroName</td>
+                    <td>@hero.FirstName</td>
+                    <td>@hero.LastName</td>
+                    <td>@hero.Location</td>
+                    <td>@hero.NumberOfFriends</td>
+                    <td><button type="button" class="btn btn-outline-primary" @onclick="(() => Edit(hero.Rank))"><i class="oi oi-pencil"></i></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <EditForm Model="@createModel" OnValidSubmit = "@CreateHero">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        <div class = "mb-3">
+            <label for="rank" class="col-form-label">Rank</label>
+            <input style="margin-left:53px" type="text" id="rank" class="input-group-sm" @bind-value="createModel.Rank"/>
+        </div>
+        <div class = "mb-3">
+            <label for="heroName" class="col-form-label">Hero Name</label>
+            <input style="margin-left:10px" type="text" id="heroName" class="input-group-sm" @bind-value="createModel.HeroName"/>
+        </div>
+        <div class = "mb-3">
+            <label for="firstName" class="col-form-label">First Name</label>
+            <input style="margin-left:13px" type="text" id="firstName" class="input-group-sm" @bind-value="createModel.FirstName"/>
+        </div>
+        <div class = "mb-3">
+            <label for="lastName" class="col-form-label">Last Name</label>
+            <input style="margin-left:13px" type="text" id="lastName" class="input-group-sm" @bind-value="createModel.LastName"/>
+        </div>
+        <div class = "mb-3">
+            <label for="location" class="col-form-label">Location</label>
+            <input style="margin-left:30px" type="text" id="location" class="input-group-sm" @bind-value="createModel.Location"/>
+        </div>
+        <div class = "mb-3">
+            <label for="numberOfFriends" class="col-form-label">Friends</label>
+            <input style="margin-left:39px" type="text" id="numberOfFriends" class="input-group-sm" @bind-value="createModel.NumberOfFriends"/>
+        </div>
+        <button type="submit" class="btn btn-outline-warning">Create</button>
+    </EditForm>
+}
+
+
+@code{
+    private List<Superhero> heroes;
+    private List<SuperheroDisplayModel> displayModels = new List<SuperheroDisplayModel>();
+
+    private SuperheroDisplayModel createModel = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        heroes = (List<Superhero>)await unit.SuperHeroes.GetAll();
+        HeroesFromDbToDisplay();
+    }
+
+    private void HeroesFromDbToDisplay()
+    {
+        for (var i = 0; i < heroes.Count; i++)
+        {
+            displayModels.Add(new SuperheroDisplayModel(){  HeroName = heroes[i].HeroName, 
+                                                            FirstName = heroes[i].FirstName, 
+                                                            LastName = heroes[i].LastName, 
+                                                            Location = heroes[i].Location, 
+                                                            Rank = heroes[i].Rank, 
+                                                            NumberOfFriends = heroes[i].NumberOfFriends });
+        }
+    }
+    private void Edit(int Rank)
+    {
+        navigationManager.NavigateTo($"/Data/SHeroes/{Rank}");
+    }
+    private async Task CreateHero()
+    {
+        Superhero superheroCreating = new Superhero()
+            {
+                HeroName = createModel.HeroName,
+                FirstName = createModel.FirstName,
+                LastName = createModel.LastName,
+                Location = createModel.Location,
+                Rank = createModel.Rank,
+                NumberOfFriends = createModel.NumberOfFriends
+            };
+        await unit.SuperHeroes.Add(superheroCreating);
+        await unit.Complete();
+        navigationManager.NavigateTo("/Data/SHeroes", true);
+    }
+}
