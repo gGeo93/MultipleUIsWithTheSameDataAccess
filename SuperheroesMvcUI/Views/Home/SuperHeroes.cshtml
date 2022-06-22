@@ -1,0 +1,48 @@
+﻿@model PageIndexDisplay
+@{
+    ViewData["Title"] = "SuperHeroes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<ISuperheroDisplayModel> superheroDisplayModels = ViewBag.Superheroes;
+    
+}
+
+
+<div id="heroes">
+
+    <h1>SuperHeroes</h1>
+    <br />
+    <div id="albumContainer">
+    
+        <img src='~/Imgs/HeroesImgs/@superheroDisplayModels[Model.PageIndex].HeroImage' id="SuperheroImg"/>
+        <div id="HeroName"><b>@superheroDisplayModels[Model.PageIndex].HeroName</b></div>
+        <div id="Rank"><b>@superheroDisplayModels[Model.PageIndex].Rank</b></div>
+        <div id="Edit"></div>
+        <div id="Delete"></div>
+        <div id="next">
+        <form asp-action="SuperHeroes" method="post">
+            <input type="number" asp-for=PageIndex/>
+            <input type="submit" value="next page"/>
+        </form>
+        </div>
+        <div id="previous"><button type="button" onclick="PreviousPage(@ViewBag.PageIndex)" value="previous"></button></div>
+    
+    </div>
+    <br />
+</div>
+
+<script type="text/javascript">
+    function NextPage(pageIndex) {
+    /*let lastPage = .Count - 1
+        if (ViewBag.PageIndex < lastPage)
+        { 
+        }*/
+        pageIndex.PageIndex = pageIndex.PageIndex + 1;
+    }
+    function PreviousPage(pageIndex) {
+        //let firstPage = 0;
+        //if (ViewBag.PageIndex > firstPage)
+        //{
+        pageIndex.PageIndex = pageIndex.PageIndex - 1;
+        //}
+    }
+</script>
