@@ -9,13 +9,13 @@ namespace SuperheroesMvcUI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private SuperheroesDisplayServices superheroesDisplayServices;
-        private IPageIndex pageIndex;
+        private IViewModel viewModel;
 
-        public HomeController(ILogger<HomeController> logger, SuperheroesDisplayServices supeheroesDisplayServices, IPageIndex pageIndex)
+        public HomeController(ILogger<HomeController> logger, SuperheroesDisplayServices supeheroesDisplayServices, IViewModel viewModel)
         {
             _logger = logger;
+            this.viewModel = viewModel;
             this.superheroesDisplayServices = supeheroesDisplayServices;
-            this.pageIndex = pageIndex;
         }
 
         public IActionResult Index()
@@ -31,23 +31,31 @@ namespace SuperheroesMvcUI.Controllers
 
         public async Task<IActionResult> SuperHeroes() 
         {
-            List<ISuperheroDisplayModel> superheroDisplayModels = await superheroesDisplayServices.DbModelsToListOfDisplayModels();
-            ViewBag.Superheroes = superheroDisplayModels;
-            pageIndex.PageIndex = 0;
-            return View(pageIndex);
+            viewModel.SuperheroesDisplay = await SuperheroesDisplayServices();
+            viewModel.SupeheroroPageIndex.PageIndex = 0;
+            return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> SuperHeroes(PageIndexDisplay model) 
+        public async Task<IActionResult> SuperHeroes(int modelIndex) 
         {
-            List<ISuperheroDisplayModel> superheroDisplayModels = await superheroesDisplayServices.DbModelsToListOfDisplayModels();
-            ViewBag.Superheroes = superheroDisplayModels;
-            pageIndex.PageIndex = model.PageIndex;
-            return View(pageIndex);
+            viewModel.SuperheroesDisplay = await SuperheroesDisplayServices();
+            if (modelIndex>=0 && modelIndex<=8)
+            {
+                viewModel.SupeheroroPageIndex.PageIndex = modelIndex;
+                return View(viewModel);
+            }
+            viewModel.SupeheroroPageIndex.PageIndex = 0;
+            return View(viewModel);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private async Task<List<ISuperheroDisplayModel>> SuperheroesDisplayServices() 
+        {
+            return await superheroesDisplayServices.DbModelsToListOfDisplayModels();
         }
     }
 }

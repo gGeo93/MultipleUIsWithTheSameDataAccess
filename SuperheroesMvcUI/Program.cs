@@ -10,7 +10,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<SuperheroContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddTransient<ISuperheroDisplayModel, SuperheroDisplayModel>();
-builder.Services.AddScoped<IPageIndex, PageIndexDisplay>();
+builder.Services.AddTransient<IPageIndex, PageIndexDisplay>();
+builder.Services.AddTransient<IViewModel, ViewModel>();
 builder.Services.AddTransient<SuperheroesDisplayServices>();
 
 var app = builder.Build();
