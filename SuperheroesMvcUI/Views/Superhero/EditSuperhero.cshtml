@@ -1,0 +1,37 @@
+﻿@model ISuperheroDisplayModel
+@{
+    ViewData["Title"] = "EditSuperhero";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit Superhero</h1>
+<h2>@Model.HeroName</h2>
+
+    <form asp-controller="Superhero" asp-action="UpdateSuperhero" method="post">
+        <div class = "mb-3">
+            <label for="heroName" class="col-form-label">Hero Name</label>
+            <input style="margin-left:10px" type="text" class="input-group-sm" asp-for="@Model.HeroName" readonly="@(true)"/>
+        </div>
+        <div class = "mb-3">
+            <label for="firstName" class="col-form-label">First Name</label>
+            <input style="margin-left:13px" type="text" class="input-group-sm" asp-for="@Model.FirstName"/>
+        </div>
+        <div class = "mb-3">
+            <label for="lastName" class="col-form-label">Last Name</label>
+            <input style="margin-left:13px" type="text" class="input-group-sm" asp-for="@Model.LastName"/>
+        </div>
+        <div class = "mb-3">
+            <label for="location" class="col-form-label">Location</label>
+            <input style="margin-left:30px" type="text" class="input-group-sm" asp-for="@Model.Location"/>
+        </div>
+        <div class = "mb-3">
+            <label for="rank" class="col-form-label">Rank</label>
+            <input style="margin-left:53px" type="text" class="input-group-sm" asp-for="@Model.Rank" readonly="@(true)"/>
+        </div>
+        <div class = "mb-3">
+            <label for="numberOfFriends" class="col-form-label">Friends</label>
+            <input style="margin-left:39px" type="text" class="input-group-sm" asp-for="@Model.NumberOfFriends"/>
+        </div>
+        <input type="submit" class="btn btn-outline-warning" value="Update">
+    </form>
+

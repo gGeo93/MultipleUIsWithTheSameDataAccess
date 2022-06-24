@@ -69,11 +69,11 @@ header {
 }
 #welcomeMessage {
     text-align:center;
-    color: white;
+    color: black;
 }
 #privacy {
     text-align: center;
-    color: white;
+    color: black;
 }
 #heroes {
     text-align: center;
@@ -83,6 +83,7 @@ header {
     margin: auto 25% auto 25%;
     width:500px;
     height: 500px;
+    position: center;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 3fr 1fr 1fr 1fr; 
@@ -108,18 +109,35 @@ header {
     background-color: rgba(255,255,128,0.25);
     color:black;
 }
-#Edit {
-    grid-row: 3/4;
+#Crud {
+    grid-column:1/-1;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#Create {
+    background-color: rgba(0,255,0,0.25);
+    grid-row: 1/2;
     grid-column: 1/2;
+}
+#Edit {
+    grid-row: 1/2;
+    grid-column: 2/3;
     background-color: rgba(0,0,255,0.25);
+}
+#Delet {
+    grid-row: 1/2;
+    grid-column: 3/-1;
+    background-color: rgba(255,0,0,0.25);
+}
+.crudText {
+    width:75%;
+    text-align:center;
+}
+#createBtn {
+    margin-top: 15px;
 }
 #editBtn {
     margin-top: 15px;
-}
-#Delete {
-    grid-row: 3/4;
-    grid-column: 2/-1;
-    background-color: rgba(255,0,0,0.25);
 }
 #deleteBtn {
     margin-top: 15px;
@@ -151,5 +169,25 @@ footer h6 {
     #burgerBtn {
         display:block;
         background-image: url('../Imgs/icons-menu-48.png');
+    }
+    #albumContainer {
+        margin: auto auto auto auto;
+        width: 400px;
+        height: 400px;
+    }
+    #createBtn {
+        margin-top: 0;
+    }
+    #editBtn {
+        margin-top: 0;
+    }
+    #deleteBtn {
+        margin-top: 0;
+    }
+    #indexForm {
+        margin-top: 0;
+    }
+    footer{
+        padding-bottom:0;
     }
 }

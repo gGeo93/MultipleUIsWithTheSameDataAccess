@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppUITest", "Console
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperheroesBlazorUI", "SuperheroesBlazorUI\SuperheroesBlazorUI.csproj", "{5AE15857-9558-47EE-80B9-B265E930B5F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperheroesMvcUI", "SuperheroesMvcUI\SuperheroesMvcUI.csproj", "{0743BCD2-B272-418D-AD2A-5D98ABA40A4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperheroesMvcUI", "SuperheroesMvcUI\SuperheroesMvcUI.csproj", "{0743BCD2-B272-418D-AD2A-5D98ABA40A4B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3D24B20C-FBD4-43C0-9F76-0E68B845B38C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

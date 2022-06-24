@@ -1,0 +1,45 @@
+﻿@model IViewModel
+@{
+    ViewData["Title"] = "SuperHeroes";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
+}
+
+
+<div id="heroes">
+
+    <h1 style="color:black">SuperHeroes</h1>
+    <br />
+    <div id="albumContainer">
+    
+        <img src='~/Imgs/HeroesImgs/@Model.SuperheroesDisplay[Model.SupeheroPageIndex.PageIndex].HeroImage' id="SuperheroImg"/>
+        <div id="HeroName"><b>@Model.SuperheroesDisplay[Model.SupeheroPageIndex.PageIndex].HeroName</b></div>
+        <div id="Rank"><b>@Model.SuperheroesDisplay[Model.SupeheroPageIndex.PageIndex].Rank</b></div>
+        <div id="Crud">
+            <did id="Create">
+                <form asp-controller="Superhero" asp-action="CreateSuperhero" method="post">
+                    <input class="crudText" readonly="@(true)" type="text" name="heroName" value="@Model.SuperheroesDisplay[Model.SupeheroPageIndex.PageIndex].HeroName"/>
+                    <button type="submit" class="btn btn-success" id="createBtn">Create &nbsp<span class="fa fa-plus"></span></button>
+                </form>
+            </did>
+            <div id="Edit">
+                <form asp-controller="Superhero" asp-action="EditSuperhero" method="post">
+                    <input class="crudText" readonly="@(true)" type="text" name="heroName" value="@Model.SuperheroesDisplay[Model.SupeheroPageIndex.PageIndex].HeroName"/>
+                    <button type="submit" class="btn btn-primary" id="editBtn">Edit &nbsp<span class="fa fa-pencil"></span></button>
+                </form>
+            </div>
+            <div id="Delete">
+                <form asp-controller="Superhero" asp-action="DeleteSuperhero" method="post">
+                    <input class="crudText" readonly="@(true)" type="text" name="heroName" value="@Model.SuperheroesDisplay[Model.SupeheroPageIndex.PageIndex].HeroName"/>
+                    <button type="submit" class="btn btn-danger" id="deleteBtn">Delete &nbsp<span class="fa fa-trash"></span></button>
+                </form>
+            </div>
+        </div>   
+        <div id="indexes">
+            <form asp-controller="Superhero" asp-action="SuperHeroes" method="post" id="indexForm">
+                <input type="number" name="modelIndex" value="@Model.SupeheroPageIndex.PageIndex"/>
+                <input type="submit" value="Album Index" class="btn btn-primary"/>
+            </form>
+        </div>    
+    </div>
+    <br />
+</div>

@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<SuperheroContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<ISuperheroDisplayModel, SuperheroDisplayModel>();
 builder.Services.AddTransient<IPageIndex, PageIndexDisplay>();
 builder.Services.AddTransient<IViewModel, ViewModel>();

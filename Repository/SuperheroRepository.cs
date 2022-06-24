@@ -23,6 +23,18 @@ namespace Repository
         {
             return await context.Set<Superhero>().OrderByDescending(s => s.Rank).Take(number).ToListAsync();
         }
+
+        public void SetTheStrongestHeroesByRank() 
+        {
+            int rank = 1;
+            var dbSuperheroes = context.Set<Superhero>();
+            foreach (var hero in dbSuperheroes)
+            {
+                hero.Rank = rank;
+                rank += 1;
+            }
+        }
+
         public SuperheroContext SuperheroContext => context as SuperheroContext;
         
     }
