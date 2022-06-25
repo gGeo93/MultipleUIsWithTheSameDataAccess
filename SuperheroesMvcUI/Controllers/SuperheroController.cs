@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
 using Repository;
 using SuperheroesMvcUI.Models;
 
@@ -34,14 +36,29 @@ namespace SuperheroesMvcUI.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public async Task<ViewResult> EditSuperhero(string heroName) 
+        public async Task<ViewResult> EditSuperhero(string heroName)
         {
             List<ISuperheroDisplayModel> superheroes = await SuperheroesDisplayServices();
             ISuperheroDisplayModel model = superheroes.Find(h => h.HeroName == heroName);
             return View(model);
         }
+        public IActionResult CreateSuperheroForm()
+        {
+            return View();
+        }
         [HttpPost]
-        public async Task<IActionResult> UpdateSuperhero(SuperheroDisplayModel singleSuperhero) 
+        public async Task<IActionResult> CreateSuperhero(SuperheroDisplayModel newSuperhero)
+        {
+            string imgPath = $"{newSuperhero.HeroImage}";
+            string fileName = Path.GetFileName(imgPath);
+            string imgDestination = $@"wwwroot\Imgs\HeroesImgs\{fileName}";
+            MoveImgFroSourceToProjectFolder(imgPath, imgDestination);
+            newSuperhero.HeroImage = fileName;
+            await superheroesDisplayServices.AddSuperheroToDb(newSuperhero);
+            return RedirectToAction("SuperHeroes");
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateSuperhero(SuperheroDisplayModel singleSuperhero)
         {
             await superheroesDisplayServices.UpdateDbSuperhero(singleSuperhero);
             return RedirectToAction("SuperHeroes");
@@ -56,6 +73,10 @@ namespace SuperheroesMvcUI.Controllers
         private async Task<List<ISuperheroDisplayModel>> SuperheroesDisplayServices()
         {
             return await superheroesDisplayServices.DbModelsToListOfDisplayModels();
+        }
+        private void MoveImgFroSourceToProjectFolder(string source, string destination) 
+        { 
+            System.IO.File.Copy(source, destination);
         }
     }
 }

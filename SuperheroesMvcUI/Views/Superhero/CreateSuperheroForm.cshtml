@@ -1,0 +1,38 @@
+﻿@model ISuperheroDisplayModel
+@{
+    ViewData["Title"] = "CreateSuperhero";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create Superhero Form</h1>
+<form asp-controller="Superhero" asp-action="CreateSuperhero" method="post">
+        <div class = "mb-3">
+            <label for="ImageAbsoluteUrl" class="col-form-label">Hero Image</label>
+            <input style="margin-left:10px" type="text" class="input-group-sm" asp-for="@Model.HeroImage" required="@(true)"/>
+        </div>
+        <div class = "mb-3">
+            <label for="heroName" class="col-form-label">Hero Name</label>
+            <input style="margin-left:10px" type="text" class="input-group-sm" asp-for="@Model.HeroName" required="@(true)"/>
+        </div>
+        <div class = "mb-3">
+            <label for="firstName" class="col-form-label">First Name</label>
+            <input style="margin-left:13px" type="text" class="input-group-sm" asp-for="@Model.FirstName" required="@(true)"/>
+        </div>
+        <div class = "mb-3">
+            <label for="lastName" class="col-form-label">Last Name</label>
+            <input style="margin-left:13px" type="text" class="input-group-sm" asp-for="@Model.LastName" required="@(true)"/>
+        </div>
+        <div class = "mb-3">
+            <label for="location" class="col-form-label">Location</label>
+            <input style="margin-left:30px" type="text" class="input-group-sm" asp-for="@Model.Location" required="@(true)"/>
+        </div>
+        <div class = "mb-3">
+            <label for="rank" class="col-form-label">Rank</label>
+            <input style="margin-left:53px" type="text" class="input-group-sm" asp-for="@Model.Rank" required="@(true)"/>
+        </div>
+        <div class = "mb-3">
+            <label for="numberOfFriends" class="col-form-label">Friends</label>
+            <input style="margin-left:39px" type="text" class="input-group-sm" asp-for="@Model.NumberOfFriends" required="(@true)"/>
+        </div>
+        <input type="submit" class="btn btn-success" value="Create">
+    </form>

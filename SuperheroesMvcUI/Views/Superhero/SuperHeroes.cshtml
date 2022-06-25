@@ -16,8 +16,8 @@
         <div id="Rank"><b>@Model.SuperheroesDisplay[Model.SupeheroPageIndex.PageIndex].Rank</b></div>
         <div id="Crud">
             <did id="Create">
-                <form asp-controller="Superhero" asp-action="CreateSuperhero" method="post">
-                    <input class="crudText" readonly="@(true)" type="text" name="heroName" value="@Model.SuperheroesDisplay[Model.SupeheroPageIndex.PageIndex].HeroName"/>
+                <form asp-controller="Superhero" asp-action="CreateSuperheroForm">
+                    <input class="crudText" readonly="@(true)" type="text" value="@Model.SuperheroesDisplay[Model.SupeheroPageIndex.PageIndex].HeroName"/>
                     <button type="submit" class="btn btn-success" id="createBtn">Create &nbsp<span class="fa fa-plus"></span></button>
                 </form>
             </did>

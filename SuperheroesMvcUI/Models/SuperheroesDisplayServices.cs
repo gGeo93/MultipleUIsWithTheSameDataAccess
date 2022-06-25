@@ -35,6 +35,20 @@ namespace SuperheroesMvcUI.Models
             }
             return superheroesDisplayModels;
         }
+        public async Task AddSuperheroToDb(SuperheroDisplayModel herotoToBeAdded)
+        {
+            Superhero newSuperhero = new Superhero {
+                ImgFileName = herotoToBeAdded.HeroImage,
+                HeroName = herotoToBeAdded.HeroName,
+                FirstName = herotoToBeAdded.FirstName,
+                LastName = herotoToBeAdded.LastName,
+                Location = herotoToBeAdded.Location,
+                NumberOfFriends = herotoToBeAdded.NumberOfFriends,
+                Rank = herotoToBeAdded.Rank
+            };
+            await unitOfWork.SuperHeroes.Add(newSuperhero);
+            await SaveDbChanges();
+        }
         public async Task UpdateDbSuperhero(SuperheroDisplayModel model) 
         {
             List<Superhero> dbSuperhero = (List<Superhero>) await unitOfWork.SuperHeroes.Find(h => h.HeroName == model.HeroName);
