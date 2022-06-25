@@ -1,4 +1,5 @@
 ﻿using DataAccess.Data;
+using DataAccess.Model_Entities_Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
@@ -13,6 +14,5 @@ namespace DataAccess
 
         public DbSet<Superhero> Superheroes { get; set; }
 
-        
     }
 }
