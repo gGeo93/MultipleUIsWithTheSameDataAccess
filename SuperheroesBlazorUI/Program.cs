@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Repository;
-using SuperheroesBlazorUI.Data;
 using SuperheroesBlazorUI.Data_Model;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<SuperheroContext>();
 builder.Services.AddTransient<Superhero>();
 builder.Services.AddScoped<UnitOfWork>();

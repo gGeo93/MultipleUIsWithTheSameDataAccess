@@ -70,27 +70,27 @@ namespace SuperheroesWebApi.Controllers
         [HttpPut]
         public async Task<ActionResult<IEnumerable<Superhero>>> UpdateHero(SuperheroWebApiModelUse request)
         {
-            List<Superhero> chosenHero = (List<Superhero>)await heroes.SuperHeroes.Find(super => super.Rank == request.Rank);
+            Superhero chosenHero = await heroes.SuperHeroes.FindTheFirst(super => super.Rank == request.Rank);
             if (chosenHero == null)
             {
-                return BadRequest("There is no such hero with this Id");
+                return BadRequest("There is no such hero with this Rank");
             }
-            chosenHero[0].HeroName = request.HeroName;
-            chosenHero[0].FirstName = request.FirstName;
-            chosenHero[0].LastName = request.LastName;
-            chosenHero[0].Location = request.Location;
-            chosenHero[0].NumberOfFriends = request.NumberOfFriends;
-            chosenHero[0].Rank = request.Rank;
+            chosenHero.HeroName = request.HeroName;
+            chosenHero.FirstName = request.FirstName;
+            chosenHero.LastName = request.LastName;
+            chosenHero.Location = request.Location;
+            chosenHero.NumberOfFriends = request.NumberOfFriends;
+            chosenHero.Rank = request.Rank;
             await heroes.Complete();
             return Ok(chosenHero);
         }
         [HttpDelete("{rank}")]
         public async Task<IActionResult> DeleteHero(int rank)
         {
-            List<Superhero> heroDeleted = (List<Superhero>)await heroes.SuperHeroes.Find(super => super.Rank == rank);
+            Superhero heroDeleted = await heroes.SuperHeroes.FindTheFirst(super => super.Rank == rank);
             if (heroDeleted == null)
                 return BadRequest("No hero to delete");
-            heroes.SuperHeroes.Remove(heroDeleted[0]);
+            heroes.SuperHeroes.Remove(heroDeleted);
             await heroes.Complete();
             return Ok();
         }

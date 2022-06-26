@@ -19,6 +19,10 @@ namespace Repository
         {
             return await context.Set<TEntity>().ToListAsync();
         }
+        public async Task<TEntity?> FindTheFirst(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+        }
         public async Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate) 
         {
             return await context.Set<TEntity>().Where(predicate).ToListAsync();
@@ -41,5 +45,6 @@ namespace Repository
         {
             context.Set<TEntity>().RemoveRange(entities);
         }
+
     }
 }

@@ -51,22 +51,22 @@ namespace SuperheroesMvcUI.Models
         }
         public async Task UpdateDbSuperhero(SuperheroDisplayModel model) 
         {
-            List<Superhero> dbSuperhero = (List<Superhero>) await unitOfWork.SuperHeroes.Find(h => h.HeroName == model.HeroName);
+            Superhero dbSuperhero = await unitOfWork.SuperHeroes.FindTheFirst(h => h.HeroName == model.HeroName);
             if (dbSuperhero != null) 
             {
-                dbSuperhero[0].HeroName = model.HeroName;
-                dbSuperhero[0].FirstName = model.FirstName;
-                dbSuperhero[0].LastName = model.LastName;
-                dbSuperhero[0].Location = model.Location;
-                dbSuperhero[0].NumberOfFriends = model.NumberOfFriends;
-                dbSuperhero[0].Rank = model.Rank;
+                dbSuperhero.HeroName = model.HeroName;
+                dbSuperhero.FirstName = model.FirstName;
+                dbSuperhero.LastName = model.LastName;
+                dbSuperhero.Location = model.Location;
+                dbSuperhero.NumberOfFriends = model.NumberOfFriends;
+                dbSuperhero.Rank = model.Rank;
                 await unitOfWork.Complete();
             }
         }
         public async Task DeleteSuperheroFromDb(string heroName) 
         {
-            var superheroToDelete = (List<Superhero>)await unitOfWork.SuperHeroes.Find(h => h.HeroName == heroName);
-            unitOfWork.SuperHeroes.Remove(superheroToDelete[0]);
+            Superhero superheroToDelete = await unitOfWork.SuperHeroes.FindTheFirst(h => h.HeroName == heroName);
+            unitOfWork.SuperHeroes.Remove(superheroToDelete);
             await SaveDbChanges();
         }
         public async Task SortHeroesByRankAfterDelete() 
